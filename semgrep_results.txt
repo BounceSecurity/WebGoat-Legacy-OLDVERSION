@@ -1,0 +1,291 @@
+
+Findings:
+
+  src/main/java/org/owasp/webgoat/lessons/AbstractLesson.java 
+     contrib.owasp.java.ssrf.ssrf.owasp.java.ssrf.java.net.url
+        A parameter being passed directly into java.net.URL function most likely lead to SSRF.
+        Details: https://sg.run/ndOd
+
+        694┆ public static Element readFromURL(String url) {
+        695┆     ElementContainer ec = new ElementContainer();
+        696┆ 
+        697┆     try {
+        698┆         URL u = new URL(url);
+        699┆         HttpURLConnection huc = (HttpURLConnection) u.openConnection();
+        700┆         BufferedReader reader = new BufferedReader(new InputStreamReader(huc.getInputStream()));
+        701┆         String line;
+        702┆ 
+        703┆         while ((line = reader.readLine()) != null) {
+           [hid 11 additional lines, adjust with --max-lines-per-finding] 
+     java.lang.security.audit.formatted-sql-string.formatted-sql-string
+        Detected a formatted string in a SQL statement. This could lead to SQL injection if
+        variables in the SQL statement are not properly sanitized. Use a prepared statements
+        (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using
+        'connection.prepareStatement'.
+        Details: https://sg.run/OPXp
+
+        623┆ ResultSet answer_results = answer_statement.executeQuery(query);
+
+
+  src/main/java/org/owasp/webgoat/lessons/Challenge2Screen.java 
+     java.lang.security.audit.cookie-missing-httponly.cookie-missing-httponly
+        A cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies
+        instructs the browser to forbid client-side scripts from reading the cookie. Set the
+        'HttpOnly' flag by calling 'cookie.setHttpOnly(true);'
+        Details: https://sg.run/b7Be
+
+        172┆ s.getResponse().addCookie(newCookie);
+          ⋮┆----------------------------------------
+        195┆ s.getResponse().addCookie(newCookie);
+          ⋮┆----------------------------------------
+     java.lang.security.audit.cookie-missing-samesite.cookie-missing-samesite
+        Detected cookie without the SameSite attribute.
+        Details: https://sg.run/N427
+
+        172┆ s.getResponse().addCookie(newCookie);
+          ⋮┆----------------------------------------
+        195┆ s.getResponse().addCookie(newCookie);
+          ⋮┆----------------------------------------
+     java.lang.security.audit.cookie-missing-secure-flag.cookie-missing-secure-flag
+        A cookie was detected without setting the 'secure' flag. The 'secure' flag for cookies
+        prevents the client from transmitting the cookie over insecure channels such as HTTP. Set
+        the 'secure' flag by calling 'newCookie.setSecure(true);'
+        Details: https://sg.run/kXoK
+
+        172┆ s.getResponse().addCookie(newCookie);
+          ⋮┆----------------------------------------
+        195┆ s.getResponse().addCookie(newCookie);
+
+
+  src/main/java/org/owasp/webgoat/lessons/Encoding.java 
+     java.lang.security.audit.cbc-padding-oracle.cbc-padding-oracle
+        Using CBC with PKCS5Padding is susceptible to padding oracle attacks. A malicious actor
+        could discern the difference between plaintext with valid or invalid padding. Further, CBC
+        mode does not include any integrity checks. See https://find-sec-
+        bugs.github.io/bugs.htm#CIPHER_INTEGRITY. Use 'AES/GCM/NoPadding' instead.
+        Details: https://sg.run/ydxr
+
+         ▶▶┆ Autofix ▶ javax.crypto.Cipher.getInstance("AES/GCM/NoPadding");
+        325┆ Cipher passwordDecryptCipher = Cipher.getInstance("PBEWithMD5AndDES/CBC/PKCS5Padding");
+          ⋮┆----------------------------------------
+         ▶▶┆ Autofix ▶ javax.crypto.Cipher.getInstance("AES/GCM/NoPadding");
+        370┆ Cipher passwordEncryptCipher = Cipher.getInstance("PBEWithMD5AndDES/CBC/PKCS5Padding");
+          ⋮┆----------------------------------------
+     java.lang.security.audit.crypto.use-of-md5.use-of-md5
+        Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and
+        is therefore not suitable as a cryptographic signature. Use HMAC instead.
+        Details: https://sg.run/ryJn
+
+        465┆ md = MessageDigest.getInstance("MD5");
+
+
+  src/main/java/org/owasp/webgoat/lessons/GoatHillsFinancial/DefaultLessonAction.java 
+     java.lang.security.audit.formatted-sql-string.formatted-sql-string
+        Detected a formatted string in a SQL statement. This could lead to SQL injection if
+        variables in the SQL statement are not properly sanitized. Use a prepared statements
+        (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using
+        'connection.prepareStatement'.
+        Details: https://sg.run/OPXp
+
+        198┆ ResultSet answer_results = answer_statement.executeQuery(query);
+          ⋮┆----------------------------------------
+        252┆ ResultSet answer_results = answer_statement.executeQuery(query);
+
+
+  src/main/java/org/owasp/webgoat/lessons/GoatHillsFinancial/Login.java 
+     java.lang.security.audit.formatted-sql-string.formatted-sql-string
+        Detected a formatted string in a SQL statement. This could lead to SQL injection if
+        variables in the SQL statement are not properly sanitized. Use a prepared statements
+        (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using
+        'connection.prepareStatement'.
+        Details: https://sg.run/OPXp
+
+        127┆ ResultSet answer_results = answer_statement.executeQuery(query);
+
+
+  src/main/java/org/owasp/webgoat/lessons/HttpOnly.java 
+     java.lang.security.audit.cookie-missing-samesite.cookie-missing-samesite
+        Detected cookie without the SameSite attribute.
+        Details: https://sg.run/N427
+
+        212┆ response.setHeader("Set-Cookie", UNIQUE2U + "=" + value + "; HttpOnly");
+          ⋮┆----------------------------------------
+        217┆ response.setHeader("Set-Cookie", UNIQUE2U + "=" + cookie + "; HttpOnly");
+          ⋮┆----------------------------------------
+        230┆ response.setHeader("Set-Cookie", UNIQUE2U + "=" + value + ";");
+          ⋮┆----------------------------------------
+        235┆ response.setHeader("Set-Cookie", UNIQUE2U + "=" + cookie + ";");
+
+
+  src/main/java/org/owasp/webgoat/lessons/SQLInjection/Login.java 
+     java.lang.security.audit.formatted-sql-string.formatted-sql-string
+        Detected a formatted string in a SQL statement. This could lead to SQL injection if
+        variables in the SQL statement are not properly sanitized. Use a prepared statements
+        (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using
+        'connection.prepareStatement'.
+        Details: https://sg.run/OPXp
+
+        131┆ ResultSet answer_results = answer_statement.executeQuery(query);
+          ⋮┆----------------------------------------
+        166┆ ResultSet answer_results = answer_statement.executeQuery(query);
+
+
+  src/main/java/org/owasp/webgoat/lessons/SQLInjection/ViewProfile.java 
+     java.lang.security.audit.formatted-sql-string.formatted-sql-string
+        Detected a formatted string in a SQL statement. This could lead to SQL injection if
+        variables in the SQL statement are not properly sanitized. Use a prepared statements
+        (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using
+        'connection.prepareStatement'.
+        Details: https://sg.run/OPXp
+
+        108┆ ResultSet answer_results = answer_statement.executeQuery(query);
+          ⋮┆----------------------------------------
+        157┆ ResultSet answer_results = answer_statement.executeQuery(query);
+
+
+  src/main/java/org/owasp/webgoat/lessons/WeakAuthenticationCookie.java 
+     java.lang.security.audit.cookie-missing-httponly.cookie-missing-httponly
+        A cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies
+        instructs the browser to forbid client-side scripts from reading the cookie. Set the
+        'HttpOnly' flag by calling 'cookie.setHttpOnly(true);'
+        Details: https://sg.run/b7Be
+
+        145┆ s.getResponse().addCookie(newCookie);
+          ⋮┆----------------------------------------
+     java.lang.security.audit.cookie-missing-samesite.cookie-missing-samesite
+        Detected cookie without the SameSite attribute.
+        Details: https://sg.run/N427
+
+        145┆ s.getResponse().addCookie(newCookie);
+          ⋮┆----------------------------------------
+     java.lang.security.audit.cookie-missing-secure-flag.cookie-missing-secure-flag
+        A cookie was detected without setting the 'secure' flag. The 'secure' flag for cookies
+        prevents the client from transmitting the cookie over insecure channels such as HTTP. Set
+        the 'secure' flag by calling 'newCookie.setSecure(true);'
+        Details: https://sg.run/kXoK
+
+        145┆ s.getResponse().addCookie(newCookie);
+
+
+  src/main/java/org/owasp/webgoat/lessons/WeakSessionID.java 
+     java.lang.security.audit.cookie-missing-httponly.cookie-missing-httponly
+        A cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies
+        instructs the browser to forbid client-side scripts from reading the cookie. Set the
+        'HttpOnly' flag by calling 'cookie.setHttpOnly(true);'
+        Details: https://sg.run/b7Be
+
+        200┆ s.getResponse().addCookie(cookie);
+          ⋮┆----------------------------------------
+     java.lang.security.audit.cookie-missing-samesite.cookie-missing-samesite
+        Detected cookie without the SameSite attribute.
+        Details: https://sg.run/N427
+
+        200┆ s.getResponse().addCookie(cookie);
+          ⋮┆----------------------------------------
+     java.lang.security.audit.cookie-missing-secure-flag.cookie-missing-secure-flag
+        A cookie was detected without setting the 'secure' flag. The 'secure' flag for cookies
+        prevents the client from transmitting the cookie over insecure channels such as HTTP. Set
+        the 'secure' flag by calling 'cookie.setSecure(true);'
+        Details: https://sg.run/kXoK
+
+        200┆ s.getResponse().addCookie(cookie);
+
+
+  src/main/java/org/owasp/webgoat/lessons/WsSAXInjection.java 
+     contrib.owasp.java.xxe.xmlreader.owasp.java.xxe.org.xml.sax.XMLReader
+        XMLReader being instantiated without calling the setFeature functions that are generally
+        used for disabling entity processing
+        Details: https://sg.run/J9rR
+
+        158┆ XMLReader reader = XMLReaderFactory.createXMLReader();
+          ⋮┆----------------------------------------
+        158┆ XMLReader reader = XMLReaderFactory.createXMLReader();
+        159┆ PasswordChanger changer = new PasswordChanger();
+        160┆ reader.setContentHandler(changer);
+        161┆ reader.parse(new InputSource(new StringReader(xml)));
+
+
+  src/main/java/org/owasp/webgoat/lessons/WsSqlInjection.java 
+     java.lang.security.audit.formatted-sql-string.formatted-sql-string
+        Detected a formatted string in a SQL statement. This could lead to SQL injection if
+        variables in the SQL statement are not properly sanitized. Use a prepared statements
+        (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using
+        'connection.prepareStatement'.
+        Details: https://sg.run/OPXp
+
+        233┆ ResultSet results = statement.executeQuery(query);
+
+
+  src/main/java/org/owasp/webgoat/session/UserDatabase.java 
+     java.lang.security.audit.formatted-sql-string.formatted-sql-string
+        Detected a formatted string in a SQL statement. This could lead to SQL injection if
+        variables in the SQL statement are not properly sanitized. Use a prepared statements
+        (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using
+        'connection.prepareStatement'.
+        Details: https://sg.run/OPXp
+
+         71┆ ResultSet countResult = statement.executeQuery(QUERY_TABLE_COUNT.replace("table", tableName));
+
+
+  src/main/java/org/owasp/webgoat/session/WebSession.java 
+     java.lang.security.audit.cookie-missing-httponly.cookie-missing-httponly
+        A cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies
+        instructs the browser to forbid client-side scripts from reading the cookie. Set the
+        'HttpOnly' flag by calling 'cookie.setHttpOnly(true);'
+        Details: https://sg.run/b7Be
+
+        276┆ response.addCookie(cookies[loop]);
+          ⋮┆----------------------------------------
+     java.lang.security.audit.cookie-missing-samesite.cookie-missing-samesite
+        Detected cookie without the SameSite attribute.
+        Details: https://sg.run/N427
+
+        276┆ response.addCookie(cookies[loop]);
+          ⋮┆----------------------------------------
+     java.lang.security.audit.cookie-missing-secure-flag.cookie-missing-secure-flag
+        A cookie was detected without setting the 'secure' flag. The 'secure' flag for cookies
+        prevents the client from transmitting the cookie over insecure channels such as HTTP. Set
+        the 'secure' flag by calling 'cookies[loop].setSecure(true);'
+        Details: https://sg.run/kXoK
+
+        276┆ response.addCookie(cookies[loop]);
+
+
+  src/main/java/org/owasp/webgoat/util/Interceptor.java 
+     java.lang.security.audit.crypto.unencrypted-socket.unencrypted-socket
+        This socket is not encrypted. The traffic could be read by an attacker intercepting the
+        network traffic. Use an SSLSocket created by 'SSLSocketFactory' or 'SSLServerSocketFactory'
+        instead
+        Details: https://sg.run/W8zA
+
+         88┆ osgSocket = new Socket(osgServerName, Integer.parseInt(osgServerPort));
+          ⋮┆----------------------------------------
+     java.lang.security.audit.xss.no-direct-response-writer.no-direct-response-writer
+        Detected a request with potential user-input going into a OutputStream or Writer object.
+        This bypasses any view or template environments, including HTML escaping, which may expose
+        this application to cross-site scripting (XSS) vulnerabilities. Consider using a view
+        technology such as JavaServer Faces (JSFs) which automatically escapes HTML views.
+        Details: https://sg.run/KlRL
+
+        112┆ out.close();
+
+============================[ summary ]============================
+Total time: 241.6794s Config time: 3.8549s Core time: 237.5500s
+
+Semgrep-core time:
+Total CPU time: 11.0075s  File parse time: 13.6233s  Rule parse time: 0.1629s  Match time: 4.0445s
+Slowest 5/189 files
+...org/owasp/webgoat/lessons/Challenge2Screen.java ( 26KB): 0.009s (0.374s to parse)
+...in/java/org/owasp/webgoat/session/CreateDB.java ( 40KB): 0.031s (0.337s to parse)
+.../org/owasp/webgoat/lessons/ConcurrencyCart.java ( 22KB): 0.119s (0.237s to parse)
+.../org/owasp/webgoat/session/ParameterParser.java ( 29KB): 0.235s (0.201s to parse)
+.../org/owasp/webgoat/lessons/SessionFixation.java ( 25KB): 0.360s (0.190s to parse)
+Slowest 5 rules to match
+...tresponse-writer-xss.servletresponse-writer-xss:         0.001s
+...rvlet-path-traversal.httpservlet-path-traversal:         0.014s
+...apper-is-insecure.xssrequestwrapper-is-insecure:         0.000s
+...irect-response-writer.no-direct-response-writer:         0.011s
+java.lang.security.audit.xml-decoder.xml-decoder:           0.000s
+
+Analyzed: 189 java files (  1MB in 10.845 seconds)
+Errors:   0 files with errors
