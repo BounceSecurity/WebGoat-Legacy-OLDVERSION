@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Version: local
+Archiver-Version: Plexus Archiver
+Built-By: josh
+Specification-Title: WebGoat
+Created-By: Apache Maven 3.6.3
+Build-Jdk: 1.8.0_312
+Specification-Version: 6.0.1
+
