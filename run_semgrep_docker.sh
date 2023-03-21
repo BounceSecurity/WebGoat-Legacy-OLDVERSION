@@ -2,3 +2,5 @@ docker run -v ${PWD}:/src returntocorp/semgrep scan --verbose --config p/java --
 
 docker run -v ${PWD}:/src returntocorp/semgrep scan --verbose --config p/java --config r/contrib.owasp.java --config r/generic --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' -o '/src/semgrep_results.sarif' --sarif
 
+docker run -v ${PWD}:/src returntocorp/semgrep scan --verbose --config p/java --config r/contrib.owasp.java --config r/generic --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' -o '/src/semgrep_results.json' --json
+
