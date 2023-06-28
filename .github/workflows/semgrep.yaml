@@ -16,6 +16,12 @@ jobs:
     name: semgrep/ci
     # If you are self-hosting, change the following `runs-on` value: 
     runs-on: ubuntu-latest
+    env:
+      # Add the rules that Semgrep uses by setting the SEMGREP_RULES environment variable. 
+      SEMGREP_RULES:  >
+        r/contrib.owasp.java
+        r/generic
+        p/java
     container:
       # A Docker image with Semgrep installed. Do not change this.
       image: returntocorp/semgrep
@@ -29,12 +35,6 @@ jobs:
       # Run the "semgrep ci" command on the command line of the docker image.
       - run: semgrep --verbose --no-force-color --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' -o semgrep_results.txt
       - run: semgrep --verbose --no-force-color --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' -o semgrep_results.sarif --sarif
-        env:
-           # Add the rules that Semgrep uses by setting the SEMGREP_RULES environment variable. 
-           SEMGREP_RULES:  >
-            r/contrib.owasp.java
-            r/generic
-            p/java
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
