@@ -16,8 +16,8 @@ jobs:
     name: semgrep/ci
     # If you are self-hosting, change the following `runs-on` value: 
     runs-on: ubuntu-latest
-   # env:
-    #  SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
+    env:
+      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
     container:
       # A Docker image with Semgrep installed. Do not change this.
       image: returntocorp/semgrep
@@ -28,6 +28,13 @@ jobs:
     steps:
       # Fetch project source with GitHub Actions Checkout.
       - uses: actions/checkout@v3
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+      - name: Build with Maven
+        run: mvn dependency:tree -DoutputFile=maven_dep_tree.txt
       # Run the "semgrep ci" command on the command line of the docker image.
       - run: semgrep ci --supply-chain --verbose --no-force-color --metrics='off' #-o semgrep_sca_gh_action_results.txt
       - name: Upload Artifacts
