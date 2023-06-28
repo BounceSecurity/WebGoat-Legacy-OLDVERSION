@@ -40,7 +40,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: Semgrep Text Output
+          name: Semgrep Output
           path: semgrep_gh_action_results.*
       - name: Upload SARIF file for GitHub Advanced Security Dashboard
         uses: github/codeql-action/upload-sarif@v2
