@@ -4,5 +4,5 @@ declare -a StringArray=("-o semgrep_results.txt" "--sarif -o semgrep_results.sar
 
 for outFormat in "${StringArray[@]}"
 do
-  semgrep --verbose --config p/java --config r/contrib.owasp.java --config r/generic --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' $outFormat 
+  semgrep --verbose --oss-only --config p/java --config r/contrib.owasp.java --config r/generic --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' $outFormat 
 done
