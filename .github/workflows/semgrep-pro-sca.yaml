@@ -38,7 +38,7 @@ jobs:
         #run: mvn clean package
         run: mvn dependency:tree -DoutputFile=maven_dep_tree.txt
       # Run the "semgrep ci" command on the command line of the docker image.
-      - run: docker run --env SEMGREP_APP_TOKEN=${{ secrets.SEMGREP_TOKEN }} -v ${PWD}:/src returntocorp/semgrep semgrep ci --supply-chain --verbose --no-force-color --metrics='off' #-o semgrep_sca_gh_action_results.txt
+      - run: docker run --env SEMGREP_APP_TOKEN=${{ secrets.SEMGREP_TOKEN }} -v ${PWD}:/src returntocorp/semgrep semgrep ci --supply-chain --verbose --no-force-color --metrics='off' -o semgrep_sca_gh_action_results.txt
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
