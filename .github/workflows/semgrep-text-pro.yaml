@@ -1,5 +1,5 @@
 # Name of this GitHub Actions workflow.
-name: Semgrep (text format)
+name: Semgrep Pro (text format)
 
 on:
   # Scan changed files in PRs (diff-aware scanning):
@@ -16,6 +16,8 @@ jobs:
     name: semgrep/ci
     # If you are self-hosting, change the following `runs-on` value: 
     runs-on: ubuntu-latest
+    env:
+      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
     container:
       # A Docker image with Semgrep installed. Do not change this.
       image: returntocorp/semgrep
@@ -26,8 +28,9 @@ jobs:
     steps:
       # Fetch project source with GitHub Actions Checkout.
       - uses: actions/checkout@v3
+      - run: semgrep install-semgrep-pro
       # Run the "semgrep ci" command on the command line of the docker image.
-      - run: semgrep --verbose --no-force-color --include='*.java' --metrics='off' --severity='ERROR' -o semgrep_results.txt
+      - run: semgrep --pro --verbose --pro-intrafile --no-force-color --include='*.java' --metrics='off' --severity='ERROR' -o semgrep_results.txt
         env:
            # Add the rules that Semgrep uses by setting the SEMGREP_RULES environment variable. 
            SEMGREP_RULES:  >
