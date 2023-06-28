@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v3
       - run: semgrep install-semgrep-pro
       # Run the "semgrep ci" command on the command line of the docker image.
-      - run: semgrep --pro --verbose --no-force-color --metrics='off' -o semgrep_sca_gh_action_results.txt
+      - run: semgrep --supply-chain --verbose --no-force-color --metrics='off' -o semgrep_sca_gh_action_results.txt
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
