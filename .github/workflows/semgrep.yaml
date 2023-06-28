@@ -27,7 +27,8 @@ jobs:
       # Fetch project source with GitHub Actions Checkout.
       - uses: actions/checkout@v3
       # Run the "semgrep ci" command on the command line of the docker image.
-      - run: semgrep --verbose --no-force-color --include='*.java' --metrics='off' --severity='ERROR' -o semgrep_results.txt
+      - run: semgrep --verbose --no-force-color --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' -o semgrep_results.txt
+      - run: semgrep --verbose --no-force-color --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' -o semgrep_results.sarif --sarif
         env:
            # Add the rules that Semgrep uses by setting the SEMGREP_RULES environment variable. 
            SEMGREP_RULES:  >
@@ -37,5 +38,10 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: Semgrep Text Output
-          path: semgrep_results.txt
+          name: Semgrep Output
+          path: semgrep_results.*
+      - name: Upload SARIF file for GitHub Advanced Security Dashboard
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: semgrep_results.sarif
+        if: always()
