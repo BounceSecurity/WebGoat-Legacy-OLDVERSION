@@ -1,154 +1,1615 @@
-Findings:
-
-[36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/AbstractLesson.java [0m
-     [1m[24mcontrib.owasp.java.ssrf.ssrf.owasp.java.ssrf.java.net.url[0m
-        A parameter being passed directly into java.net.URL function most likely lead to SSRF.
-        Details: https://sg.run/ndOd
-
-        694┆ [1m[24mpublic static Element readFromURL(String url) {[0m
-        695┆ [1m[24m    ElementContainer ec = new ElementContainer();[0m
-        696┆ [1m[24m[0m
-        697┆ [1m[24m    try {[0m
-        698┆ [1m[24m        URL u = new URL(url);[0m
-        699┆ [1m[24m        HttpURLConnection huc = (HttpURLConnection) u.openConnection();[0m
-        700┆ [1m[24m        BufferedReader reader = new BufferedReader(new InputStreamReader(huc.getInputStream()));[0m
-        701┆ [1m[24m        String line;[0m
-        702┆ [1m[24m[0m
-        703┆ [1m[24m        while ((line = reader.readLine()) != null) {[0m
-           [hid 11 additional lines, adjust with --max-lines-per-finding] 
-     [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m
-        Detected a formatted string in a SQL statement. This could lead to SQL injection if
-        variables in the SQL statement are not properly sanitized. Use a prepared statements
-        (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using
-        'connection.prepareStatement'.
-        Details: https://sg.run/OPXp
-
-        623┆ ResultSet answer_results = [1m[24manswer_statement.executeQuery(query)[0m;
-
-
-[36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/Encoding.java [0m
-     [1m[24mjava.lang.security.audit.cbc-padding-oracle.cbc-padding-oracle[0m
-        Using CBC with PKCS5Padding is susceptible to padding oracle attacks. A malicious actor
-        could discern the difference between plaintext with valid or invalid padding. Further, CBC
-        mode does not include any integrity checks. Use 'AES/GCM/NoPadding' instead.
-        Details: https://sg.run/ydxr
-
-[32m[22m[24m         ▶▶┆ Autofix ▶[0m "AES/GCM/NoPadding"
-        325┆ Cipher passwordDecryptCipher = Cipher.getInstance([1m[24m"PBEWithMD5AndDES/CBC/PKCS5Padding"[0m);
-          ⋮┆----------------------------------------
-[32m[22m[24m         ▶▶┆ Autofix ▶[0m "AES/GCM/NoPadding"
-        370┆ Cipher passwordEncryptCipher = Cipher.getInstance([1m[24m"PBEWithMD5AndDES/CBC/PKCS5Padding"[0m);
-          ⋮┆----------------------------------------
-     [1m[24mjava.lang.security.audit.crypto.des-is-deprecated.des-is-deprecated[0m
-        DES is considered deprecated. AES is the recommended cipher. Upgrade to use AES. See
-        https://www.nist.gov/news-events/news/2005/06/nist-withdraws-outdated-data-encryption-
-        standard for more information.
-        Details: https://sg.run/5Q73
-
-[32m[22m[24m         ▶▶┆ Autofix ▶[0m "AES/GCM/NoPadding"
-        325┆ Cipher passwordDecryptCipher = Cipher.getInstance([1m[24m"PBEWithMD5AndDES/CBC/PKCS5Padding"[0m);
-          ⋮┆----------------------------------------
-[32m[22m[24m         ▶▶┆ Autofix ▶[0m "AES/GCM/NoPadding"
-        370┆ Cipher passwordEncryptCipher = Cipher.getInstance([1m[24m"PBEWithMD5AndDES/CBC/PKCS5Padding"[0m);
-          ⋮┆----------------------------------------
-     [1m[24mjava.lang.security.audit.crypto.use-of-md5.use-of-md5[0m
-        Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and
-        is therefore not suitable as a cryptographic signature. Use HMAC instead.
-        Details: https://sg.run/ryJn
-
-[32m[22m[24m         ▶▶┆ Autofix ▶[0m "SHA-512"
-        465┆ md = MessageDigest.getInstance([1m[24m"MD5"[0m);
-
-
-[36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/GoatHillsFinancial/DefaultLessonAction.java [0m
-     [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m
-        Detected a formatted string in a SQL statement. This could lead to SQL injection if
-        variables in the SQL statement are not properly sanitized. Use a prepared statements
-        (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using
-        'connection.prepareStatement'.
-        Details: https://sg.run/OPXp
-
-        252┆ ResultSet answer_results = [1m[24manswer_statement.executeQuery(query)[0m;
-
-
-[36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/GoatHillsFinancial/Login.java [0m
-     [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m
-        Detected a formatted string in a SQL statement. This could lead to SQL injection if
-        variables in the SQL statement are not properly sanitized. Use a prepared statements
-        (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using
-        'connection.prepareStatement'.
-        Details: https://sg.run/OPXp
-
-        127┆ ResultSet answer_results = [1m[24manswer_statement.executeQuery(query)[0m;
-
-
-[36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/SQLInjection/Login.java [0m
-     [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m
-        Detected a formatted string in a SQL statement. This could lead to SQL injection if
-        variables in the SQL statement are not properly sanitized. Use a prepared statements
-        (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using
-        'connection.prepareStatement'.
-        Details: https://sg.run/OPXp
-
-        131┆ ResultSet answer_results = [1m[24manswer_statement.executeQuery(query)[0m;
-          ⋮┆----------------------------------------
-        166┆ ResultSet answer_results = [1m[24manswer_statement.executeQuery(query)[0m;
-
-
-[36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/SQLInjection/ViewProfile.java [0m
-     [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m
-        Detected a formatted string in a SQL statement. This could lead to SQL injection if
-        variables in the SQL statement are not properly sanitized. Use a prepared statements
-        (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using
-        'connection.prepareStatement'.
-        Details: https://sg.run/OPXp
-
-        108┆ ResultSet answer_results = [1m[24manswer_statement.executeQuery(query)[0m;
-          ⋮┆----------------------------------------
-        157┆ ResultSet answer_results = [1m[24manswer_statement.executeQuery(query)[0m;
-
-
-[36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/WsSAXInjection.java [0m
-     [1m[24mcontrib.owasp.java.xxe.xmlreader.owasp.java.xxe.org.xml.sax.XMLReader[0m
-        XMLReader being instantiated without calling the setFeature functions that are generally
-        used for disabling entity processing
-        Details: https://sg.run/J9rR
-
-        158┆ [1m[24mXMLReader reader = XMLReaderFactory.createXMLReader()[0m;
-          ⋮┆----------------------------------------
-        158┆ [1m[24mXMLReader reader = XMLReaderFactory.createXMLReader();[0m
-        159┆ [1m[24mPasswordChanger changer = new PasswordChanger();[0m
-        160┆ [1m[24mreader.setContentHandler(changer);[0m
-        161┆ [1m[24mreader.parse(new InputSource(new StringReader(xml)));[0m
-
-
-[36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/WsSqlInjection.java [0m
-     [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m
-        Detected a formatted string in a SQL statement. This could lead to SQL injection if
-        variables in the SQL statement are not properly sanitized. Use a prepared statements
-        (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using
-        'connection.prepareStatement'.
-        Details: https://sg.run/OPXp
-
-        233┆ ResultSet results = [1m[24mstatement.executeQuery(query)[0m;
-
-
-[36m[22m[24m  src/main/java/org/owasp/webgoat/session/UserDatabase.java [0m
-     [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m
-        Detected a formatted string in a SQL statement. This could lead to SQL injection if
-        variables in the SQL statement are not properly sanitized. Use a prepared statements
-        (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using
-        'connection.prepareStatement'.
-        Details: https://sg.run/OPXp
-
-         71┆ ResultSet countResult = [1m[24mstatement.executeQuery(QUERY_TABLE_COUNT.replace("table", tableName))[0m;
-
-
-[36m[22m[24m  src/main/java/org/owasp/webgoat/util/Interceptor.java [0m
-     [1m[24mjava.lang.security.audit.crypto.unencrypted-socket.unencrypted-socket[0m
-        Detected use of a Java socket that is not encrypted. As a result, the traffic could be read
-        by an attacker intercepting the network traffic. Use an SSLSocket created by
-        'SSLSocketFactory' or 'SSLServerSocketFactory' instead.
-        Details: https://sg.run/W8zA
-
-         88┆ osgSocket = [1m[24mnew Socket(osgServerName, Integer.parseInt(osgServerPort))[0m;
+                     
+                     
+┌───────────────────┐
+│ 367 Code Findings │
+└───────────────────┘
+                                                                
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/Catcher.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          115┆ [1m[24mt.printStackTrace()[0m;
+                                                                     
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/LessonSource.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          103┆ [1m[24mt.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          109┆ [1m[24mthr.printStackTrace()[0m;
+                                                                               
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/AbstractLesson.java [0m
+       [1m[24mcontrib.owasp.java.ssrf.ssrf.owasp.java.ssrf.java.net.url[0m                      
+          A parameter being passed directly into java.net.URL function most likely lead to SSRF.
+          Details: https://sg.run/ndOd                                                          
+                                                                                                
+          694┆ [1m[24mpublic static Element readFromURL(String url) {[0m
+          695┆ [1m[24m    ElementContainer ec = new ElementContainer();[0m
+          696┆ [1m[24m[0m
+          697┆ [1m[24m    try {[0m
+          698┆ [1m[24m        URL u = new URL(url);[0m
+          699┆ [1m[24m        HttpURLConnection huc = (HttpURLConnection) u.openConnection();[0m
+          700┆ [1m[24m        BufferedReader reader = new BufferedReader(new                                            
+  InputStreamReader(huc.getInputStream()));[0m                                                                          
+          701┆ [1m[24m        String line;[0m
+          702┆ [1m[24m[0m
+          703┆ [1m[24m        while ((line = reader.readLine()) != null) {[0m
+             [hid 11 additional lines, adjust with --max-lines-per-finding] 
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          254┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          297┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          710┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m           
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/OPXp                                                        
+                                                                                              
+          623┆ ResultSet answer_results = [1m[24manswer_statement.executeQuery(query)[0m;
+                                                                                    
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/AccessControlMatrix.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          129┆ [1m[24me.printStackTrace()[0m;
+                                                                          
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/BackDoors.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          119┆ [1m[24me.printStackTrace()[0m;
+                                                                                    
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/BasicAuthentication.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          141┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          217┆ [1m[24me.printStackTrace()[0m;
+                                                                                         
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/BlindNumericSqlInjection.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          133┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          270┆ [1m[24me.printStackTrace(System.out)[0m;
+                                                                            
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/BlindScript.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          106┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          284┆ [1m[24me.printStackTrace()[0m;
+                                                                                        
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/BlindStringSqlInjection.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          131┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          138┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          319┆ [1m[24me.printStackTrace(System.out)[0m;
+                                                                                            
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/BypassHtmlFieldRestrictions.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          157┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          244┆ [1m[24me.printStackTrace(System.out)[0m;
+                                                                     
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/CSRF.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          323┆ [1m[24me.printStackTrace()[0m;
+                                                                                 
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/Challenge2Screen.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          385┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          425┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          603┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          741┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.servlets.security.audit.cookie-missing-httponly.cookie-missing-httponly[0m       
+          A cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies
+          instructs the browser to forbid client-side scripts from reading the cookie. Set the      
+          'HttpOnly' flag by calling 'cookie.setHttpOnly(true);'                                    
+          Details: https://sg.run/2WZD                                                              
+                                                                                                    
+          172┆ [1m[24ms.getResponse().addCookie(newCookie);[0m
+            ⋮┆----------------------------------------
+          195┆ [1m[24ms.getResponse().addCookie(newCookie);[0m
+            ⋮┆----------------------------------------
+       [1m[24mjava.servlets.security.audit.cookie-missing-samesite.cookie-missing-samesite[0m         
+          The application does not appear to verify inbound requests which can lead to a Cross-site   
+          request forgery (CSRF) vulnerability. If the application uses cookie-based authentication,  
+          an attacker can trick users into sending authenticated HTTP requests without their knowledge
+          from any arbitrary domain they visit. To prevent this vulnerability start by identifying if 
+          the framework or library leveraged has built-in features or offers plugins for CSRF         
+          protection. CSRF tokens should be unique and securely random. The `Synchronizer Token` or   
+          `Double Submit Cookie` patterns with defense-in-depth mechanisms such as the `sameSite`     
+          cookie flag can help prevent CSRF. For more information, see: [Cross-site request forgery   
+          prevention](https://cheatsheetseries.owasp.org/cheatsheets/Cross-                           
+          Site_Request_Forgery_Prevention_Cheat_Sheet.html)                                           
+          Details: https://sg.run/XR5b                                                                
+                                                                                                      
+          172┆ [1m[24ms.getResponse().addCookie(newCookie);[0m
+            ⋮┆----------------------------------------
+          195┆ [1m[24ms.getResponse().addCookie(newCookie);[0m
+            ⋮┆----------------------------------------
+       [1m[24mjava.servlets.security.audit.cookie-missing-secure-flag.cookie-missing-secure-flag[0m
+          A cookie was detected without setting the 'secure' flag. The 'secure' flag for cookies   
+          prevents the client from transmitting the cookie over insecure channels such as HTTP. Set
+          the 'secure' flag by calling 'newCookie.setSecure(true);'                                
+          Details: https://sg.run/jW2J                                                             
+                                                                                                   
+          172┆ [1m[24ms.getResponse().addCookie(newCookie);[0m
+            ⋮┆----------------------------------------
+          195┆ [1m[24ms.getResponse().addCookie(newCookie);[0m
+                                                                                                        
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/ClientSideFiltering/ClientSideFiltering.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          119┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          218┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          256┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          429┆ [1m[24me.printStackTrace()[0m;
+                                                                                     
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/ClientSideValidation.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          119┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          181┆ [1m[24me.printStackTrace()[0m;
+                                                                                 
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/CommandInjection.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          171┆ [1m[24me.printStackTrace()[0m;
+                                                                                
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/ConcurrencyCart.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          297┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          413┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          535┆ [1m[24me.printStackTrace()[0m;
+                                                                                                      
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/CrossSiteScripting/CrossSiteScripting.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          268┆ [1m[24mpnfe.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          273┆ [1m[24mve.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          279┆ [1m[24mue.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          284┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          289┆ [1m[24me.printStackTrace()[0m;
+                                                                                               
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/CrossSiteScripting/EditProfile.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          106┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          111┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          150┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          155┆ [1m[24me.printStackTrace()[0m;
+                                                                                               
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/CrossSiteScripting/FindProfile.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          107┆ [1m[24mue1.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          111┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          181┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          186┆ [1m[24me.printStackTrace()[0m;
+                                                                                                 
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/CrossSiteScripting/UpdateProfile.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           98┆ [1m[24mue1.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          102┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          215┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          221┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          257┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          263┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          300┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          305┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          342┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          347┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          379┆ [1m[24msqle.printStackTrace()[0m;
+                                                                                               
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/CrossSiteScripting/ViewProfile.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          117┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          122┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          165┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          170┆ [1m[24me.printStackTrace()[0m;
+                                                                                                          
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/DBCrossSiteScripting/DBCrossSiteScripting.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          190┆ [1m[24mpnfe.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          195┆ [1m[24mve.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          201┆ [1m[24mue.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          206┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          211┆ [1m[24me.printStackTrace()[0m;
+                                                                                                   
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/DBCrossSiteScripting/UpdateProfile.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          113┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          129┆ [1m[24mue1.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          133┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          199┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          204┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          220┆ [1m[24msqle.printStackTrace()[0m;
+                                                                                              
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/DBSQLInjection/DBSQLInjection.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          191┆ [1m[24mpnfe.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          196┆ [1m[24mve.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          202┆ [1m[24mue.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          207┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          212┆ [1m[24me.printStackTrace()[0m;
+                                                                                     
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/DBSQLInjection/Login.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           86┆ [1m[24mue1.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+           90┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          173┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          178┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          215┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          220┆ [1m[24me.printStackTrace()[0m;
+                                                                             
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/DOMInjection.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           85┆ [1m[24me.printStackTrace()[0m;
+                                                                       
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/DOMXSS.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          181┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          299┆ [1m[24me.printStackTrace()[0m;
+                                                                          
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/DOS_Login.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          154┆ [1m[24msqle.printStackTrace()[0m;
+                                                                              
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/DangerousEval.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          197┆ [1m[24me.printStackTrace()[0m;
+                                                                         
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/Encoding.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          293┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          470┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          494┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          588┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.cbc-padding-oracle.cbc-padding-oracle[0m                     
+          Using CBC with PKCS5Padding is susceptible to padding oracle attacks. A malicious actor   
+          could discern the difference between plaintext with valid or invalid padding. Further, CBC
+          mode does not include any integrity checks. Use 'AES/GCM/NoPadding' instead.              
+          Details: https://sg.run/ydxr                                                              
+                                                                                                    
+  [32m[22m[24m         ▶▶┆ Autofix ▶[0m "AES/GCM/NoPadding"
+          325┆ Cipher passwordDecryptCipher = Cipher.getInstance([1m[24m"PBEWithMD5AndDES/CBC/PKCS5Padding"[0m);
+            ⋮┆----------------------------------------
+  [32m[22m[24m         ▶▶┆ Autofix ▶[0m "AES/GCM/NoPadding"
+          370┆ Cipher passwordEncryptCipher = Cipher.getInstance([1m[24m"PBEWithMD5AndDES/CBC/PKCS5Padding"[0m);
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.crypto.des-is-deprecated.des-is-deprecated[0m            
+          DES is considered deprecated. AES is the recommended cipher. Upgrade to use AES. See  
+          https://www.nist.gov/news-events/news/2005/06/nist-withdraws-outdated-data-encryption-
+          standard for more information.                                                        
+          Details: https://sg.run/5Q73                                                          
+                                                                                                
+  [32m[22m[24m         ▶▶┆ Autofix ▶[0m "AES/GCM/NoPadding"
+          325┆ Cipher passwordDecryptCipher = Cipher.getInstance([1m[24m"PBEWithMD5AndDES/CBC/PKCS5Padding"[0m);
+            ⋮┆----------------------------------------
+  [32m[22m[24m         ▶▶┆ Autofix ▶[0m "AES/GCM/NoPadding"
+          370┆ Cipher passwordEncryptCipher = Cipher.getInstance([1m[24m"PBEWithMD5AndDES/CBC/PKCS5Padding"[0m);
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.crypto.use-of-md5.use-of-md5[0m                                
+          Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and
+          is therefore not suitable as a cryptographic signature. Use HMAC instead.                   
+          Details: https://sg.run/ryJn                                                                
+                                                                                                      
+  [32m[22m[24m         ▶▶┆ Autofix ▶[0m "SHA-512"
+          465┆ md = MessageDigest.getInstance([1m[24m"MD5"[0m);
+                                                                                                       
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/GoatHillsFinancial/DefaultLessonAction.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          203┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          208┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          266┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          271┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          299┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          304┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m           
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/OPXp                                                        
+                                                                                              
+          252┆ ResultSet answer_results = [1m[24manswer_statement.executeQuery(query)[0m;
+                                                                                                 
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/GoatHillsFinancial/DeleteProfile.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           70┆ [1m[24mue1.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+           74┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          102┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          107┆ [1m[24me.printStackTrace()[0m;
+                                                                                               
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/GoatHillsFinancial/EditProfile.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          104┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          109┆ [1m[24me.printStackTrace()[0m;
+                                                                                               
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/GoatHillsFinancial/FindProfile.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           73┆ [1m[24mue1.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+           77┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          150┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          155┆ [1m[24me.printStackTrace()[0m;
+                                                                                                      
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/GoatHillsFinancial/GoatHillsFinancial.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          224┆ [1m[24mpnfe.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          229┆ [1m[24mve.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          235┆ [1m[24mue.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          241┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          246┆ [1m[24me.printStackTrace()[0m;
+                                                                                             
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/GoatHillsFinancial/ListStaff.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          102┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          107┆ [1m[24me.printStackTrace()[0m;
+                                                                                         
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/GoatHillsFinancial/Login.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           79┆ [1m[24mue1.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+           83┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          138┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          143┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          180┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          185┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m           
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/OPXp                                                        
+                                                                                              
+          127┆ ResultSet answer_results = [1m[24manswer_statement.executeQuery(query)[0m;
+                                                                                          
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/GoatHillsFinancial/Logout.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           62┆ [1m[24mue1.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+           66┆ [1m[24mue2.printStackTrace()[0m;
+                                                                                                 
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/GoatHillsFinancial/UpdateProfile.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           98┆ [1m[24mue1.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          102┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          146┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          152┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          168┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          204┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          209┆ [1m[24me.printStackTrace()[0m;
+                                                                                               
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/GoatHillsFinancial/ViewProfile.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          113┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          118┆ [1m[24me.printStackTrace()[0m;
+                                                                           
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/HttpBasics.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           74┆ [1m[24me.printStackTrace()[0m;
+                                                                         
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/HttpOnly.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          152┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          198┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.servlets.security.audit.cookie-missing-samesite.cookie-missing-samesite[0m         
+          The application does not appear to verify inbound requests which can lead to a Cross-site   
+          request forgery (CSRF) vulnerability. If the application uses cookie-based authentication,  
+          an attacker can trick users into sending authenticated HTTP requests without their knowledge
+          from any arbitrary domain they visit. To prevent this vulnerability start by identifying if 
+          the framework or library leveraged has built-in features or offers plugins for CSRF         
+          protection. CSRF tokens should be unique and securely random. The `Synchronizer Token` or   
+          `Double Submit Cookie` patterns with defense-in-depth mechanisms such as the `sameSite`     
+          cookie flag can help prevent CSRF. For more information, see: [Cross-site request forgery   
+          prevention](https://cheatsheetseries.owasp.org/cheatsheets/Cross-                           
+          Site_Request_Forgery_Prevention_Cheat_Sheet.html)                                           
+          Details: https://sg.run/XR5b                                                                
+                                                                                                      
+          212┆ [1m[24mresponse.setHeader("Set-Cookie", UNIQUE2U + "=" + value + "; HttpOnly");[0m
+            ⋮┆----------------------------------------
+          217┆ [1m[24mresponse.setHeader("Set-Cookie", UNIQUE2U + "=" + cookie + "; HttpOnly");[0m
+            ⋮┆----------------------------------------
+          230┆ [1m[24mresponse.setHeader("Set-Cookie", UNIQUE2U + "=" + value + ";");[0m
+            ⋮┆----------------------------------------
+          235┆ [1m[24mresponse.setHeader("Set-Cookie", UNIQUE2U + "=" + cookie + ";");[0m
+                                                                              
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/HttpSplitting.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          118┆ [1m[24me.printStackTrace()[0m;
+                                                                              
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/InsecureLogin.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          118┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          267┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          278┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          331┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          453┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          464┆ [1m[24me.printStackTrace()[0m;
+                                                                              
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/JSONInjection.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           87┆ [1m[24mex.printStackTrace()[0m;
+                                                                                     
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/JavaScriptValidation.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          216┆ [1m[24me.printStackTrace()[0m;
+                                                                              
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/LessonAdapter.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           88┆ [1m[24me.printStackTrace()[0m;
+                                                                            
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/LogSpoofing.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          120┆ [1m[24me.printStackTrace()[0m;
+                                                                                       
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/MaliciousFileExecution.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          178┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          306┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          498┆ [1m[24me.printStackTrace(System.out)[0m;
+                                                                                 
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/MultiLevelLogin1.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          187┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          447┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          503┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          514┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          538┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          549┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          592┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          603┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          634┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          645┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          686┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          697┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          733┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          744┆ [1m[24me.printStackTrace()[0m;
+                                                                                 
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/MultiLevelLogin2.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          199┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          450┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          504┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          515┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          545┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          556┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          581┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          592┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          630┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          641┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          680┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          691┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          741┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          752┆ [1m[24me.printStackTrace()[0m;
+                                                                         
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/OffByOne.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          103┆ [1m[24me.printStackTrace()[0m;
+                                                                                 
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/PasswordStrength.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          153┆ [1m[24me.printStackTrace()[0m;
+                                                                                       
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/PathBasedAccessControl.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          196┆ [1m[24me.printStackTrace()[0m;
+                                                                                    
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/RandomLessonAdapter.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           32┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+           66┆ [1m[24msqle.printStackTrace()[0m;
+                                                                             
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/ReflectedXSS.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          201┆ [1m[24me.printStackTrace()[0m;
+                                                                                                     
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/RoleBasedAccessControl/DeleteProfile.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           74┆ [1m[24mue1.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+           78┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          107┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          112┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          131┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          136┆ [1m[24me.printStackTrace()[0m;
+                                                                                                   
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/RoleBasedAccessControl/EditProfile.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          106┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          111┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          154┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          159┆ [1m[24me.printStackTrace()[0m;
+                                                                                                              
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/RoleBasedAccessControl/RoleBasedAccessControl.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          249┆ [1m[24mpnfe.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          254┆ [1m[24mve.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          260┆ [1m[24mue.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          278┆ [1m[24mpnfe.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          306┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          311┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          375┆ [1m[24mpnfe.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          380┆ [1m[24mve.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          386┆ [1m[24mue.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          402┆ [1m[24mpnfe.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          431┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          436┆ [1m[24me.printStackTrace()[0m;
+                                                                                                     
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/RoleBasedAccessControl/UpdateProfile.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          102┆ [1m[24mue1.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          106┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          150┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          156┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          192┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          198┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          214┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          253┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          258┆ [1m[24me.printStackTrace()[0m;
+                                                                                                   
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/RoleBasedAccessControl/ViewProfile.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          134┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          139┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          180┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          185┆ [1m[24me.printStackTrace()[0m;
+                                                                                       
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/SQLInjection/ListStaff.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          104┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          109┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          145┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          150┆ [1m[24me.printStackTrace()[0m;
+                                                                                   
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/SQLInjection/Login.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           86┆ [1m[24mue1.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+           90┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          141┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          146┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          177┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          182┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          219┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          224┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m           
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/OPXp                                                        
+                                                                                              
+          131┆ ResultSet answer_results = [1m[24manswer_statement.executeQuery(query)[0m;
+            ⋮┆----------------------------------------
+          166┆ ResultSet answer_results = [1m[24manswer_statement.executeQuery(query)[0m;
+                                                                                          
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/SQLInjection/SQLInjection.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          209┆ [1m[24mpnfe.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          214┆ [1m[24mve.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          220┆ [1m[24mue.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          225┆ [1m[24mue2.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          230┆ [1m[24me.printStackTrace()[0m;
+                                                                                         
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/SQLInjection/ViewProfile.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          128┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          133┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          176┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          181┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m           
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/OPXp                                                        
+                                                                                              
+          108┆ ResultSet answer_results = [1m[24manswer_statement.executeQuery(query)[0m;
+            ⋮┆----------------------------------------
+          157┆ ResultSet answer_results = [1m[24manswer_statement.executeQuery(query)[0m;
+                                                                                           
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/SameOriginPolicyProtection.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          107┆ [1m[24me.printStackTrace()[0m;
+                                                                                        
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/SequentialLessonAdapter.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           90┆ [1m[24me.printStackTrace()[0m;
+                                                                                
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/SessionFixation.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          379┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          478┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          489┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          590┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          647┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          658┆ [1m[24me.printStackTrace()[0m;
+                                                                                   
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/SilentTransactions.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          108┆ [1m[24mex.printStackTrace()[0m;
+                                                                            
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/SoapRequest.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          266┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          320┆ [1m[24me.printStackTrace()[0m;
+                                                                           
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/SqlAddData.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          129┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          134┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          242┆ [1m[24me.printStackTrace(System.out)[0m;
+                                                                              
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/SqlModifyData.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          147┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          152┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          261┆ [1m[24me.printStackTrace(System.out)[0m;
+                                                                                    
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/SqlNumericInjection.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          150┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          216┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          285┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          350┆ [1m[24me.printStackTrace(System.out)[0m;
+                                                                                   
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/SqlStringInjection.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          128┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          133┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          191┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          271┆ [1m[24me.printStackTrace(System.out)[0m;
+                                                                          
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/StoredXss.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          114┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          239┆ [1m[24me.printStackTrace()[0m;
+                                                                                    
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/ThreadSafetyProblem.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          119┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          193┆ [1m[24me.printStackTrace(System.out)[0m;
+                                                                         
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/TraceXSS.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          198┆ [1m[24me.printStackTrace()[0m;
+                                                                               
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/UncheckedEmail.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          143┆ [1m[24me.printStackTrace()[0m;
+                                                                             
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/WSDLScanning.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          158┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          161┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          164┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          255┆ [1m[24me.printStackTrace()[0m;
+                                                                                         
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/WeakAuthenticationCookie.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          189┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.servlets.security.audit.cookie-missing-httponly.cookie-missing-httponly[0m       
+          A cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies
+          instructs the browser to forbid client-side scripts from reading the cookie. Set the      
+          'HttpOnly' flag by calling 'cookie.setHttpOnly(true);'                                    
+          Details: https://sg.run/2WZD                                                              
+                                                                                                    
+          145┆ [1m[24ms.getResponse().addCookie(newCookie);[0m
+            ⋮┆----------------------------------------
+       [1m[24mjava.servlets.security.audit.cookie-missing-samesite.cookie-missing-samesite[0m         
+          The application does not appear to verify inbound requests which can lead to a Cross-site   
+          request forgery (CSRF) vulnerability. If the application uses cookie-based authentication,  
+          an attacker can trick users into sending authenticated HTTP requests without their knowledge
+          from any arbitrary domain they visit. To prevent this vulnerability start by identifying if 
+          the framework or library leveraged has built-in features or offers plugins for CSRF         
+          protection. CSRF tokens should be unique and securely random. The `Synchronizer Token` or   
+          `Double Submit Cookie` patterns with defense-in-depth mechanisms such as the `sameSite`     
+          cookie flag can help prevent CSRF. For more information, see: [Cross-site request forgery   
+          prevention](https://cheatsheetseries.owasp.org/cheatsheets/Cross-                           
+          Site_Request_Forgery_Prevention_Cheat_Sheet.html)                                           
+          Details: https://sg.run/XR5b                                                                
+                                                                                                      
+          145┆ [1m[24ms.getResponse().addCookie(newCookie);[0m
+            ⋮┆----------------------------------------
+       [1m[24mjava.servlets.security.audit.cookie-missing-secure-flag.cookie-missing-secure-flag[0m
+          A cookie was detected without setting the 'secure' flag. The 'secure' flag for cookies   
+          prevents the client from transmitting the cookie over insecure channels such as HTTP. Set
+          the 'secure' flag by calling 'newCookie.setSecure(true);'                                
+          Details: https://sg.run/jW2J                                                             
+                                                                                                   
+          145┆ [1m[24ms.getResponse().addCookie(newCookie);[0m
+                                                                              
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/WeakSessionID.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          134┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.servlets.security.audit.cookie-missing-httponly.cookie-missing-httponly[0m       
+          A cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies
+          instructs the browser to forbid client-side scripts from reading the cookie. Set the      
+          'HttpOnly' flag by calling 'cookie.setHttpOnly(true);'                                    
+          Details: https://sg.run/2WZD                                                              
+                                                                                                    
+          200┆ [1m[24ms.getResponse().addCookie(cookie);[0m
+            ⋮┆----------------------------------------
+       [1m[24mjava.servlets.security.audit.cookie-missing-samesite.cookie-missing-samesite[0m         
+          The application does not appear to verify inbound requests which can lead to a Cross-site   
+          request forgery (CSRF) vulnerability. If the application uses cookie-based authentication,  
+          an attacker can trick users into sending authenticated HTTP requests without their knowledge
+          from any arbitrary domain they visit. To prevent this vulnerability start by identifying if 
+          the framework or library leveraged has built-in features or offers plugins for CSRF         
+          protection. CSRF tokens should be unique and securely random. The `Synchronizer Token` or   
+          `Double Submit Cookie` patterns with defense-in-depth mechanisms such as the `sameSite`     
+          cookie flag can help prevent CSRF. For more information, see: [Cross-site request forgery   
+          prevention](https://cheatsheetseries.owasp.org/cheatsheets/Cross-                           
+          Site_Request_Forgery_Prevention_Cheat_Sheet.html)                                           
+          Details: https://sg.run/XR5b                                                                
+                                                                                                      
+          200┆ [1m[24ms.getResponse().addCookie(cookie);[0m
+            ⋮┆----------------------------------------
+       [1m[24mjava.servlets.security.audit.cookie-missing-secure-flag.cookie-missing-secure-flag[0m
+          A cookie was detected without setting the 'secure' flag. The 'secure' flag for cookies   
+          prevents the client from transmitting the cookie over insecure channels such as HTTP. Set
+          the 'secure' flag by calling 'cookie.setSecure(true);'                                   
+          Details: https://sg.run/jW2J                                                             
+                                                                                                   
+          200┆ [1m[24ms.getResponse().addCookie(cookie);[0m
+                                                                               
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/WsSAXInjection.java [0m
+       [1m[24mcontrib.owasp.java.xxe.xmlreader.owasp.java.xxe.org.xml.sax.XMLReader[0m            
+          XMLReader being instantiated without calling the setFeature functions that are generally
+          used for disabling entity processing                                                    
+          Details: https://sg.run/J9rR                                                            
+                                                                                                  
+          158┆ [1m[24mXMLReader reader = XMLReaderFactory.createXMLReader()[0m;
+            ⋮┆----------------------------------------
+          158┆ [1m[24mXMLReader reader = XMLReaderFactory.createXMLReader();[0m
+          159┆ [1m[24mPasswordChanger changer = new PasswordChanger();[0m
+          160┆ [1m[24mreader.setContentHandler(changer);[0m
+          161┆ [1m[24mreader.parse(new InputSource(new StringReader(xml)));[0m
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          149┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.xxe.xmlreader-xxe-parameter-entities.xmlreader-xxe-parameter-entities[0m
+          The application is using an XML parser that has not been safely configured. This might lead    
+          to XML External Entity (XXE) vulnerabilities when parsing user-controlled input. An attacker   
+          can include document type definitions (DTDs) which can interact with internal or external      
+          hosts. XXE can lead to other vulnerabilities, such as Local File Inclusion (LFI), Remote       
+          Code Execution (RCE), and Server-side request forgery (SSRF), depending on the application     
+          configuration. An attacker can also use DTDs to expand recursively, leading to a Denial-of-    
+          Service (DoS) attack, also known as a Billion Laughs Attack. It is our recommendation to       
+          secure this parser against XXE attacks through parameter entities by configuring $FACTORY      
+          with `reader.setFeature(http://apache.org/xml/features/disallow-doctype-decl, true)`.          
+          Alternatively, the following configurations also provide protection against XXE attacks.       
+          `reader.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "")`                                     
+          `reader.setFeature("http://xml.org/sax/features/external-parameter-entities", false)`. For     
+          more information, see: [Java XXE prevention](https://semgrep.dev/docs/cheat-sheets/java-       
+          xxe/)                                                                                          
+          Details: https://sg.run/oLqR                                                                   
+                                                                                                         
+          158┆ [1m[24mXMLReader reader = XMLReaderFactory.createXMLReader()[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.xxe.xmlreader-xxe.xmlreader-xxe[0m                                   
+          The application is using an XML parser that has not been safely configured. This might lead 
+          to XML External Entity (XXE) vulnerabilities when parsing user-controlled input. An attacker
+          can include document type definitions (DTDs) which can interact with internal or external   
+          hosts. XXE can lead to other vulnerabilities, such as Local File Inclusion (LFI), Remote    
+          Code Execution (RCE), and Server-side request forgery (SSRF), depending on the application  
+          configuration. An attacker can also use DTDs to expand recursively, leading to a Denial-of- 
+          Service (DoS) attack, also known as a Billion Laughs Attack. It is our recommendation to    
+          secure this parser against XXE attacks by configuring $FACTORY with                         
+          `reader.setFeature(http://apache.org/xml/features/disallow-doctype-decl, true)`.            
+          Alternatively, the following configurations also provide protection against XXE attacks.    
+          `reader.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "")`                                  
+          `reader.setFeature("http://xml.org/sax/features/external-general-entities", false)`. For    
+          more information, see: [Java XXE prevention](https://semgrep.dev/docs/cheat-sheets/java-    
+          xxe/)                                                                                       
+          Details: https://sg.run/zLdW                                                                
+                                                                                                      
+          158┆ [1m[24mXMLReader reader = XMLReaderFactory.createXMLReader()[0m;
+                                                                               
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/WsSqlInjection.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          218┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m           
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/OPXp                                                        
+                                                                                              
+          233┆ ResultSet results = [1m[24mstatement.executeQuery(query)[0m;
+                                                                             
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/XMLInjection.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          120┆ [1m[24mex.printStackTrace()[0m;
+                                                                               
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/XPATHInjection.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          185┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          189┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          193┆ [1m[24me.printStackTrace()[0m;
+                                                                        
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/ZipBomb.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           89┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          196┆ [1m[24me.printStackTrace(System.out)[0m;
+                                                                                          
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/admin/ProductsAdminScreen.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           79┆ [1m[24me.printStackTrace()[0m;
+                                                                                      
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/admin/RefreshDBScreen.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           93┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          154┆ [1m[24me.printStackTrace()[0m;
+                                                                                              
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/admin/SummaryReportCardScreen.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           99┆ [1m[24me.printStackTrace()[0m;
+                                                                                      
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/admin/UserAdminScreen.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           79┆ [1m[24me.printStackTrace()[0m;
+                                                                                   
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/admin/ViewDatabase.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           95┆ [1m[24me.printStackTrace()[0m;
+                                                                                                                  
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/instructor/RoleBasedAccessControl/DeleteProfile_i.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           39┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+           44┆ [1m[24me.printStackTrace()[0m;
+                                                                                                                
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/instructor/RoleBasedAccessControl/EditProfile_i.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           85┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+           90┆ [1m[24me.printStackTrace()[0m;
+                                                                                                                        
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/instructor/RoleBasedAccessControl/RoleBasedAccessControl_i.java 
+  [0m                                                                                                                   
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          113┆ [1m[24mpnfe.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          118┆ [1m[24mve.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          124┆ [1m[24mue.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          140┆ [1m[24mpnfe.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          169┆ [1m[24mue2.printStackTrace()[0m;
+                                                                                                                  
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/instructor/RoleBasedAccessControl/UpdateProfile_i.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           71┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+           77┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          121┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          126┆ [1m[24me.printStackTrace()[0m;
+                                                                                                                
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/instructor/RoleBasedAccessControl/ViewProfile_i.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          117┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          122┆ [1m[24me.printStackTrace()[0m;
+                                                                                                
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/instructor/SQLInjection/Login_i.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           69┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+           74┆ [1m[24me.printStackTrace()[0m;
+                                                                                                      
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/instructor/SQLInjection/ViewProfile_i.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           98┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          103┆ [1m[24me.printStackTrace()[0m;
+                                                                            
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/service/BaseService.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           85┆ [1m[24mt.printStackTrace(pw)[0m;
+                                                                                  
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/session/DatabaseUtilities.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           85┆ [1m[24msqle.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          103┆ [1m[24mcnfe.printStackTrace()[0m;
+                                                                            
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/session/ErrorScreen.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          250┆ [1m[24mt.printStackTrace(writer)[0m;
+                                                                              
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/session/LessonTracker.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          216┆ [1m[24me.printStackTrace()[0m;
+                                                                             
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/session/UserDatabase.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+           46┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+           49┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+           60┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+           79┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          109┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          126┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          154┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          174┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          188┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          202┆ [1m[24me.printStackTrace()[0m;
+                                                                           
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/session/WebSession.java [0m
+       [1m[24mjava.servlets.security.audit.cookie-missing-httponly.cookie-missing-httponly[0m       
+          A cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies
+          instructs the browser to forbid client-side scripts from reading the cookie. Set the      
+          'HttpOnly' flag by calling 'cookie.setHttpOnly(true);'                                    
+          Details: https://sg.run/2WZD                                                              
+                                                                                                    
+          276┆ [1m[24mresponse.addCookie(cookies[loop]);[0m
+            ⋮┆----------------------------------------
+       [1m[24mjava.servlets.security.audit.cookie-missing-samesite.cookie-missing-samesite[0m         
+          The application does not appear to verify inbound requests which can lead to a Cross-site   
+          request forgery (CSRF) vulnerability. If the application uses cookie-based authentication,  
+          an attacker can trick users into sending authenticated HTTP requests without their knowledge
+          from any arbitrary domain they visit. To prevent this vulnerability start by identifying if 
+          the framework or library leveraged has built-in features or offers plugins for CSRF         
+          protection. CSRF tokens should be unique and securely random. The `Synchronizer Token` or   
+          `Double Submit Cookie` patterns with defense-in-depth mechanisms such as the `sameSite`     
+          cookie flag can help prevent CSRF. For more information, see: [Cross-site request forgery   
+          prevention](https://cheatsheetseries.owasp.org/cheatsheets/Cross-                           
+          Site_Request_Forgery_Prevention_Cheat_Sheet.html)                                           
+          Details: https://sg.run/XR5b                                                                
+                                                                                                      
+          276┆ [1m[24mresponse.addCookie(cookies[loop]);[0m
+            ⋮┆----------------------------------------
+       [1m[24mjava.servlets.security.audit.cookie-missing-secure-flag.cookie-missing-secure-flag[0m
+          A cookie was detected without setting the 'secure' flag. The 'secure' flag for cookies   
+          prevents the client from transmitting the cookie over insecure channels such as HTTP. Set
+          the 'secure' flag by calling 'cookies[loop].setSecure(true);'                            
+          Details: https://sg.run/jW2J                                                             
+                                                                                                   
+          276┆ [1m[24mresponse.addCookie(cookies[loop]);[0m
+            ⋮┆----------------------------------------
+       [1m[24mjava.servlets.security.crlf-injection-logs-deepsemgrep.crlf-injection-logs-deepsemgrep[0m
+          When data from an untrusted source is put into a logger and not neutralized correctly, an    
+          attacker could forge log entries or include malicious content.                               
+          Details: https://sg.run/xGwy                                                                 
+                                                                                                       
+          924┆ [1m[24mlogger.info("PARM MAP: " + parmMap);[0m
+                                                                                  
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/session/WebgoatProperties.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          114┆ [1m[24me.printStackTrace()[0m;
+                                                                         
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/util/Interceptor.java [0m
+       [1m[24mjava.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace[0m
+          Possible active debug code detected. Deploying an application with debug code can create           
+          unintended entry points or expose sensitive information.                                           
+          Details: https://sg.run/4K8z                                                                       
+                                                                                                             
+          103┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+          107┆ [1m[24me.printStackTrace()[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.crypto.unencrypted-socket.unencrypted-socket[0m               
+          Detected use of a Java socket that is not encrypted. As a result, the traffic could be read
+          by an attacker intercepting the network traffic. Use an SSLSocket created by               
+          'SSLSocketFactory' or 'SSLServerSocketFactory' instead.                                    
+          Details: https://sg.run/W8zA                                                               
+                                                                                                     
+           88┆ osgSocket = [1m[24mnew Socket(osgServerName, Integer.parseInt(osgServerPort))[0m;
