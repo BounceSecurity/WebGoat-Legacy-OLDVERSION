@@ -35,15 +35,15 @@ jobs:
       - uses: actions/checkout@v3
       - run: semgrep install-semgrep-pro
       # Run the "semgrep ci" command on the command line of the docker image.
-      - run: semgrep --pro --verbose --pro-intrafile --no-force-color --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' -o semgrep_results.txt
-      - run: semgrep --pro --verbose --pro-intrafile --no-force-color --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' -o semgrep_results.sarif --sarif
+      - run: semgrep --pro --verbose --pro-intrafile --no-force-color --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' -o semgrep_gh_action_results.txt
+      - run: semgrep --pro --verbose --pro-intrafile --no-force-color --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' -o semgrep_gh_action_results.sarif --sarif
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: Semgrep Text Output
-          path: semgrep_results.*
+          path: semgrep_gh_action_results.*
       - name: Upload SARIF file for GitHub Advanced Security Dashboard
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: semgrep_results.sarif
+          sarif_file: semgrep_gh_action_results.sarif
         if: always()
