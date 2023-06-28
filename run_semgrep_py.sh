@@ -1,7 +1,8 @@
-semgrep scan ./src --verbose --config p/java --config r/contrib.owasp.java --config r/generic --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' -o 'semgrep_results.txt'
+#!/bin/bash
 
-semgrep scan ./src --verbose --config p/java --config r/contrib.owasp.java --config r/generic --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' -o 'semgrep_results.sarif' --sarif
+declare -a StringArray=("-o semgrep_results.txt" "--sarif -o semgrep_results.sarif" "--json -o semgrep_results.json"  )
 
-semgrep scan ./src --verbose --config p/java --config r/contrib.owasp.java --config r/generic --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' -o 'semgrep_results.json' --json
-
-
+for outFormat in "${StringArray[@]}"
+do
+  semgrep --verbose --config p/java --config r/contrib.owasp.java --config r/generic --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' $outFormat 
+done
