@@ -10,3 +10,5 @@ do
 done
 
 cat semgrep_results.txt | sed 's/\x1b\[[0-9;]*m//g' > semgrep_results.clean.txt
+rm semgrep_results.txt
+mv semgrep_results.clean.txt semgrep_results.txt
