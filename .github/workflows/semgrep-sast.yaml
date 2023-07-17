@@ -27,6 +27,7 @@ jobs:
       # Fetch project source with GitHub Actions Checkout.
       - uses: actions/checkout@v3
       # Run "semgrep" on the command line of the docker image.
+      - run: apt get aha
       - run: chmod +x *.sh
       - run: ./run_semgrep_py.sh
       # Upload artifacts to github actions
