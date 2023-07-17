@@ -2,7 +2,7 @@
 
 # Note that this does not run pro rules to avoid having to do semgrep login
 
-sudo apt install aha
+sudo apt-get install -y aha
 
 docker run -v ${PWD}:/src returntocorp/semgrep semgrep --verbose --force-color --config p/java --config r/contrib.owasp.java --config r/generic --include='*.java' --metrics='off' --severity='WARNING' --severity='ERROR' -o '/src/semgrep_results.txt'
 

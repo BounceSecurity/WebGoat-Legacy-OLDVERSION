@@ -2,7 +2,7 @@
 
 # Note that this does not run pro rules to avoid having to do semgrep login
 
-sudo apt install aha
+sudo apt-get install -y aha
 
 declare -a StringArray=("--force-color -o semgrep_results.txt" "--sarif -o semgrep_results.sarif" "--json -o semgrep_results.json"  )
 
