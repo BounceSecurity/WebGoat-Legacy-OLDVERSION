@@ -1,21 +1,12 @@
 name: "Upload SARIF"
 
-# Run workflow each time code is pushed to your repository and on a schedule.
-# The scheduled workflow runs every Thursday at 15:45 UTC.
+# Run workflow manually
 on:
-  push:
-  schedule:
-    - cron: '45 15 * * 4'
+  workflow_dispatch: {}
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      # required for all workflows
-      security-events: write
-      # only required for workflows in private repositories
-      actions: read
-      contents: read
     steps:
       # This step checks out a copy of your repository.
       - name: Checkout repository
