@@ -9,6 +9,9 @@ on:
   # Scan mainline branches and report all findings: 
   #push:
   #  branches: ["main_dep_check"]
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '37 1,3,5,7,9,11,21,23 * * *'
 
 jobs:
   semgrep:
