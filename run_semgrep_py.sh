@@ -4,7 +4,7 @@
 
 sudo apt-get install -y aha
 
-declare -a StringArray=("--force-color -o semgrep_results.txt" "--sarif -o semgrep_results.sarif" "--json -o semgrep_results.json"  )
+declare -a StringArray=("--force-color -o semgrep_results.txt" "--sarif -o semgrep_results.sarif" "--json -o semgrep_results.json"  "--vim -o semgrep_results.vim")
 
 for outFormat in "${StringArray[@]}"
 do
