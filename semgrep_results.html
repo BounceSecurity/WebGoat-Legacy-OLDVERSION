@@ -11,7 +11,7 @@
                      
                      
 ┌───────────────────┐
-│ 116 Code Findings │
+│ 117 Code Findings │
 └───────────────────┘
                                                                                 
   <span style="color:aqua;">                                                                  
@@ -941,6 +941,28 @@
             2┆ <span style="font-weight:bold;">\f\r                                                      
   \u00a0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009
   \u200a\u202f\u205f\u3000\u2028\u2029\ufeff&quot;;if(!String.prototype.tri ... </span>  
+            [shortened a long line from output, adjust with                     
+  --max-chars-per-line]                                                         
+                                                         
+  <span style="color:aqua;">  src/main/webapp/js/ace/worker-html.js </span>
+       <span style="font-weight:bold;">gitlab.eslint.detect-non-literal-require</span>                       
+          Detected the use of require(variable). Calling require with a         
+  non-literal argument might                                                    
+          allow an attacker to load an run arbitrary code, or access arbitrary  
+  files.                                                                        
+          Details: https://sg.run/5JJ6                                          
+                                                                                
+            1┆  ... 
+            2┆ <span style="font-weight:bold;"></span>&quot;||c==&quot; &quot;||c==&quot;&lt;&quot;||c==&quot;&amp;&quot;)return                       
+  e.unget(l),!1;if(n===c)return                                                 
+  e.unget(l),!1;if(c==&quot;#&quot;){c=e.shift(1);if(c===i.EOF)return                     
+  t._parseError(&quot;expected-nu ...                                             
+            3┆ <span style="font-weight:bold;"></span>\f                                                     
+  \r&amp;&lt;&gt;\&quot;'=`]&quot;);o===r.EOF&amp;&amp;(t._parseError(&quot;eof-in-attribute-value-no-quotes&quot;),t.
+  _emitCurrentToken()),e.commit(),t._currentAttribute().nodeValue+=i ...     
+            4┆ <span style="font-weight:bold;"></span>\f\r                                                   
+  \u00a0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009
+  \u200a\u202f\u205f\u3000\u2028\u2029\ufeff&quot;;if(!String.prototype ...       
             [shortened a long line from output, adjust with                     
   --max-chars-per-line]                                                         
                                                          

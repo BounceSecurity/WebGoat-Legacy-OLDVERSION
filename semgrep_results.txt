@@ -1,7 +1,7 @@
                      
                      
 ┌───────────────────┐
-│ 116 Code Findings │
+│ 117 Code Findings │
 └───────────────────┘
                                                                                 
   [36m[22m[24m                                                                  
@@ -938,6 +938,28 @@
             2┆ [1m[24m\f\r                                                      
   \u00a0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009
   \u200a\u202f\u205f\u3000\u2028\u2029\ufeff";if(!String.prototype.tri ... [0m  
+            [shortened a long line from output, adjust with                     
+  --max-chars-per-line]                                                         
+                                                         
+  [36m[22m[24m  src/main/webapp/js/ace/worker-html.js [0m
+       [1m[24mgitlab.eslint.detect-non-literal-require[0m                       
+          Detected the use of require(variable). Calling require with a         
+  non-literal argument might                                                    
+          allow an attacker to load an run arbitrary code, or access arbitrary  
+  files.                                                                        
+          Details: https://sg.run/5JJ6                                          
+                                                                                
+            1┆  ... [0m
+            2┆ [1m[24m[0m"||c==" "||c=="<"||c=="&")return                       
+  e.unget(l),!1;if(n===c)return                                                 
+  e.unget(l),!1;if(c=="#"){c=e.shift(1);if(c===i.EOF)return                     
+  t._parseError("expected-nu ... [0m                                            
+            3┆ [1m[24m[0m\f                                                     
+  \r&<>\"'=`]");o===r.EOF&&(t._parseError("eof-in-attribute-value-no-quotes"),t.
+  _emitCurrentToken()),e.commit(),t._currentAttribute().nodeValue+=i ... [0m    
+            4┆ [1m[24m[0m\f\r                                                   
+  \u00a0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009
+  \u200a\u202f\u205f\u3000\u2028\u2029\ufeff";if(!String.prototype ... [0m      
             [shortened a long line from output, adjust with                     
   --max-chars-per-line]                                                         
                                                          
